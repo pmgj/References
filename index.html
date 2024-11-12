@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References</title>
+    <script src="https://unpkg.com/bibtex-js-parser/umd/bibtex-js-parser.js"></script>
+    <script type="module" src="GUI.js"></script>
+</head>
+
+<body>
+    <form>
+        <textarea id="code" cols="30" rows="10">
+            @inproceedings{ding_dagbase_2020,
+                title = {Dagbase: a decentralized database platform {Using} {DAG}-based consensus},
+                copyright = {All rights reserved},
+                isbn = {1-72817-303-5},
+                booktitle = {2020 {IEEE} 44th {Annual} {Computers}, {Software}, and {Applications} {Conference} ({COMPSAC})},
+                publisher = {IEEE},
+                author = {Ding, Yepeng and Sato, Hiroyuki},
+                year = {2020},
+                pages = {798--807},
+            }
+            @article{ding_formalism-driven_2022,
+                title = {Formalism-{Driven} {Development}: {Concepts}, {Taxonomy}, and {Practice}},
+                volume = {12},
+                copyright = {All rights reserved},
+                issn = {2076-3417},
+                url = {https://www.mdpi.com/2076-3417/12/7/3415},
+                doi = {10.3390/app12073415},
+                number = {7},
+                journal = {Applied Sciences},
+                author = {Ding, Yepeng and Sato, Hiroyuki},
+                year = {2022},
+                pages = {3415},
+            }
+        </textarea>
+        <input type="button" value="Ok">
+        <ul></ul>
+    </form>
+</body>
+
+</html>
