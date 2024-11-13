@@ -13,7 +13,7 @@ export default class IEEE extends Formatter {
         return ret.substring(0, ret.length - 2);
     }
     citep(obj) {
-        let ret = "(";
+        let ret = "[";
         if (this.authors.length === 1) {
             ret += `${this.authors[0].lastName}, ${obj.year}`;
         } else if (this.authors.length === 2) {
@@ -21,11 +21,14 @@ export default class IEEE extends Formatter {
         } else {
             ret += `${this.authors[0].lastName} et al., ${obj.year}`;
         }
-        ret += ")";
+        ret += "]";
         return ret;
     }
     article(obj) {
-        return `${this.printAuthors()}, &ldquo;${obj.title},&rdquo; <em>${obj.journal}</em>, vol. ${obj.volume}, p. ${obj.pages}, ${obj.year}.`;
+        let volume = obj.volume ? `, vol. ${obj.volume}` : ``;
+        let pages = obj.pages ? `, p. ${obj.pages}` : ``;
+        let date = obj.month ? `, ${obj.month} ${obj.year}` : `, ${obj.year}`;
+        return `${this.printAuthors()}, &ldquo;${obj.title},&rdquo; <em>${obj.journal}</em>${volume}${pages}${date}.`;
     }
     inproceedings(obj) {
         let series = obj.series ? ` of <em>${obj.series}</em>` : ``;

@@ -25,9 +25,20 @@ export default class APA extends Formatter {
         return ret;
     }
     article(obj) {
-        return `${this.printAuthors()} (${obj.year}). ${obj.title}. <em>${obj.journal}<em>, ${obj.volume}(${obj.number}):${obj.pages}.`;
+        let number = obj.number ? `(${obj.number})` : ``;
+        let pages = obj.pages ? `:${obj.pages}` : ``;
+        let volume = obj.volume ? `, ${obj.volume}${number}${pages}` : ``;
+        return `${this.printAuthors()} (${obj.year}). ${obj.title}. <em>${obj.journal}<em>${volume}.`;
     }
     inproceedings(obj) {
-        return `${this.printAuthors()} (${obj.year}). ${obj.title}. In <em>${obj.booktitle}</em>, pages ${obj.pages}. ${obj.publisher}.`;
+        let editor = obj.editor ? ` ${obj.editor}, editor,` : ``;
+        let series = obj.series ? ` of ${obj.series}, ` : ``;
+        let volume = obj.volume ? ` volume ${obj.volume}${series}` : ``;
+        let pages = obj.pages ? `, pages ${obj.pages}` : ``;
+        let address = obj.address ? `, ${obj.address}` : ``;
+        let publisher = obj.publisher ? `${obj.publisher}` : ``;
+        let organization = obj.organization ? `${obj.organization}` : ``;
+        let orgpub = organization && publisher ? `${organization}, ${publisher}` : organization ? `${organization}` : publisher ? `${publisher}` : ``;
+        return `${this.printAuthors()} (${obj.year}). ${obj.title}. In${editor} <em>${obj.booktitle}</em>${volume}${pages}${address}. ${orgpub}.`;
     }
 }
