@@ -2,7 +2,7 @@ import APA from "./apalike.js";
 import IEEE from "./ieeetr.js";
 
 class GUI {
-    styles = [new APA(), new IEEE()];
+    styles = [APA, IEEE];
     select = document.querySelector("#style");
     convert() {
         let textarea = document.querySelector("textarea");
@@ -11,7 +11,8 @@ class GUI {
         const bibJSON = BibtexParser.parseToJSON(textarea.value);
         let index = parseInt(this.select.value);
         for (const element of bibJSON) {
-            let style = this.styles[index];
+            let style = new this.styles[index]();
+            style.processAuthors(element);
             let li = document.createElement("li");
             ul.appendChild(li);
             li.innerHTML = style[element.type](element);
@@ -20,7 +21,7 @@ class GUI {
     populateStyles() {
         for (let i = 0; i < this.styles.length; i++) {
             const s = this.styles[i];
-            this.select.add(new Option(s, i));
+            this.select.add(new Option(new s(), i));
         }
     }
     registerEvents() {

@@ -1,7 +1,6 @@
 import Formatter from "./Formatter.js";
 
 export default class APA extends Formatter {
-    authors = [];
     name = "apalike";
     constructor() {
         super();
