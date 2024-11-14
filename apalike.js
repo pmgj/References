@@ -1,36 +1,39 @@
 import Formatter from "./Formatter.js";
 
 export default class APA extends Formatter {
-    name = "apalike";
-    constructor() {
-        super();
+    static name = "apalike";
+    constructor(bibliography) {
+        super(bibliography);
     }
-    printAuthors() {
+    printAuthors(authors) {
         let ret = "";
-        for (const author of this.authors) {
+        for (const author of authors) {
             ret += `${author.lastName}, ${author.firstName[0]}., `;
         }
         return ret.substring(0, ret.length - 2);
     }
-    citep(obj) {
-        let ret = "(";
-        if (this.authors.length === 1) {
-            ret += `${this.authors[0].lastName}, ${obj.year}`;
-        } else if (this.authors.length === 2) {
-            ret += `${this.authors[0].lastName} and ${this.authors[1].lastName}, ${obj.year}`;
+    citep(id) {
+        let obj = this.getItem(id);
+        let ret = "[";
+        if (obj.authors.length === 1) {
+            ret += `${obj.authors[0].lastName}, ${obj.year}`;
+        } else if (obj.authors.length === 2) {
+            ret += `${obj.authors[0].lastName} and ${obj.authors[1].lastName}, ${obj.year}`;
         } else {
-            ret += `${this.authors[0].lastName} et al., ${obj.year}`;
+            ret += `${obj.authors[0].lastName} et al., ${obj.year}`;
         }
-        ret += ")";
+        ret += "]";
         return ret;
     }
-    article(obj) {
+    article(id) {
+        let obj = this.getItem(id);
         let number = obj.number ? `(${obj.number})` : ``;
         let pages = obj.pages ? `:${obj.pages}` : ``;
         let volume = obj.volume ? `, ${obj.volume}${number}${pages}` : ``;
-        return `${this.printAuthors()} (${obj.year}). ${obj.title}. <em>${obj.journal}<em>${volume}.`;
+        return `${this.citep(id)} ${this.printAuthors(obj.authors)} (${obj.year}). ${obj.title}. <em>${obj.journal}<em>${volume}.`;
     }
-    inproceedings(obj) {
+    inproceedings(id) {
+        let obj = this.getItem(id);
         let editor = obj.editor ? ` ${obj.editor}, editor,` : ``;
         let series = obj.series ? ` of ${obj.series}, ` : ``;
         let volume = obj.volume ? ` volume ${obj.volume}${series}` : ``;
@@ -39,6 +42,6 @@ export default class APA extends Formatter {
         let publisher = obj.publisher ? `${obj.publisher}` : ``;
         let organization = obj.organization ? `${obj.organization}` : ``;
         let orgpub = organization && publisher ? `${organization}, ${publisher}` : organization ? `${organization}` : publisher ? `${publisher}` : ``;
-        return `${this.printAuthors()} (${obj.year}). ${obj.title}. In${editor} <em>${obj.booktitle}</em>${volume}${pages}${address}. ${orgpub}.`;
+        return `${this.citep(id)} ${this.printAuthors(obj.authors)} (${obj.year}). ${obj.title}. In${editor} <em>${obj.booktitle}</em>${volume}${pages}${address}. ${orgpub}.`;
     }
 }

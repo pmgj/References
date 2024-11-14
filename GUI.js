@@ -10,18 +10,17 @@ class GUI {
         ul.innerHTML = "";
         const bibJSON = BibtexParser.parseToJSON(textarea.value);
         let index = parseInt(this.select.value);
+        let style = new this.styles[index](bibJSON);
         for (const element of bibJSON) {
-            let style = new this.styles[index]();
-            style.processAuthors(element);
             let li = document.createElement("li");
             ul.appendChild(li);
-            li.innerHTML = style[element.type](element);
+            li.innerHTML = style[element.type](element.id);
         }
     }
     populateStyles() {
         for (let i = 0; i < this.styles.length; i++) {
             const s = this.styles[i];
-            this.select.add(new Option(new s(), i));
+            this.select.add(new Option(s.name, i));
         }
     }
     registerEvents() {
