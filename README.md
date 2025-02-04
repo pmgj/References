@@ -1,2 +1,2 @@
 # References
-This repository converts a BibTeX file to several different styles online.
+This repository implements an application to show the style of references based on BibTeX styles.
