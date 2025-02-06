@@ -1,39 +1,27 @@
 package model;
 
-import org.jbibtex.BibTeXEntry;
-import org.jbibtex.Key;
+import java.util.List;
+
+import model.authorFormatter.AuthorFormatter;
+import model.authorFormatter.LastNameFirstNameAbbrv;
 
 public class ApalikeFormatter extends FormatterStrategy {
 
+    private AuthorFormatter authorFormatter = new LastNameFirstNameAbbrv();
+
     @Override
-    protected String format(BibTeXEntry entry) {
-        StringBuilder formatted = new StringBuilder();
-        System.out.println(entry.getKey());
-        System.out.println(entry.getField(new Key("title")).toUserString());
-        System.out.println(entry.getField(new Key("author")).toUserString());
-        return formatted.toString();
-    }
+    protected String format(Entry entry) {
+        List<Author> listOfAuthors = this.processAuthors(entry.getAuthor());
+        var authors = authorFormatter.format(listOfAuthors);
 
-    private String authorFormatter(String authors) {
-        StringBuilder formattedAuthors = new StringBuilder();
+        var numberValue = entry.getNumber();
+        var pagesValue = entry.getPages();
+        var volumeValue = entry.getVolume();
 
-        String[] authorArray = authors.split(" and ");
-
-        for (int i = 0; i < authorArray.length; i++) {
-            String author = authorArray[i];
-
-            String[] parts = author.split(" ");
-            String lastName = parts[0];
-            String firstName = parts[1];
-
-            String abbreviatedFirstName = firstName.substring(0, 1) + ".";
-
-            if (i > 0) {
-                formattedAuthors.append(" & ");
-            }
-
-            formattedAuthors.append(lastName).append(", ").append(abbreviatedFirstName);
-        }
-        return formattedAuthors.toString();
+        var number = numberValue.isEmpty() ? "" : "(" + numberValue + ")";
+        var pages = pagesValue.isEmpty() ? "" : ":" + pagesValue;
+        var volume = volumeValue.isEmpty() ? "" : ", " + volumeValue + number + pages;
+        return String.format("%s (%s). %s. <em>%s</em>%s", authors, entry.getYear(), entry.getTitle(),
+                entry.getJournal(), volume);
     }
 }

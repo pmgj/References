@@ -30,7 +30,7 @@ export default class APA extends Formatter {
         let number = obj.number ? `(${obj.number})` : ``;
         let pages = obj.pages ? `:${obj.pages}` : ``;
         let volume = obj.volume ? `, ${obj.volume}${number}${pages}` : ``;
-        return `${this.citep(id)} ${this.printAuthors(obj.authors)} (${obj.year}). ${obj.title}. <em>${obj.journal}<em>${volume}.`;
+        return `${this.citep(id)} ${this.printAuthors(obj.authors)} (${obj.year}). ${obj.title}. <em>${obj.journal}</em>${volume}.`;
     }
     inproceedings(id) {
         let obj = this.getItem(id);
