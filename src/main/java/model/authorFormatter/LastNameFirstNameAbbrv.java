@@ -1,6 +1,5 @@
 package model.authorFormatter;
 
-import java.util.Arrays;
 import java.util.List;
 
 import model.Author;
@@ -11,7 +10,6 @@ public class LastNameFirstNameAbbrv extends AuthorFormatter {
         for (var author : listOfAuthors) {
             ret += author.lastName() + ", ";
             var abbrv = author.firstName().split(" ");
-            System.out.println("abbrv: " + Arrays.toString(abbrv));
             for (String n : abbrv) {
                 ret += n.charAt(0) + ". ";
             }

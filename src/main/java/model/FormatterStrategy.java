@@ -14,8 +14,7 @@ public abstract class FormatterStrategy {
         StringBuilder formatted = new StringBuilder();
         for (Key key : database.getEntries().keySet()) {
             BibTeXEntry entry = database.getEntries().get(key);
-            formatted.append(this.format(new Entry(entry)));
-            formatted.append("\n");
+            formatted.append(String.format("<p>%s</p>", this.format(new Entry(entry))));
         }
         return formatted.toString();
     }

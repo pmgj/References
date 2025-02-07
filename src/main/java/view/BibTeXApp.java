@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXParser;
@@ -24,7 +24,7 @@ import model.FormatterStrategy;
 
 public class BibTeXApp {
     private JFrame frame;
-    private JTextArea outputArea;
+    private JTextPane outputArea;
     private JComboBox<String> styleSelector;
     // private FormatterStrategy formatterStrategy;
     private BibTeXDatabase database;
@@ -34,7 +34,8 @@ public class BibTeXApp {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
 
-        outputArea = new JTextArea();
+        outputArea = new JTextPane();
+        outputArea.setContentType("text/html");
         outputArea.setEditable(false); // Evita edição manual
         styleSelector = new JComboBox<>(new String[] { "Apalike", "Ieeetr" });
         JButton loadButton = new JButton("Carregar Arquivo");
@@ -44,7 +45,7 @@ public class BibTeXApp {
 
         // Listener para mudança de estilo
         styleSelector.addActionListener(e -> {
-            String selectedStyle = (String) styleSelector.getSelectedItem();
+            // String selectedStyle = (String) styleSelector.getSelectedItem();
             // formatterStrategy = selectedStyle.equals("Apalike")
             // ? new ApalikeFormatter()
             // : new IeeetrFormatter();
@@ -89,7 +90,7 @@ public class BibTeXApp {
         // String selectedStyle = (String) styleSelector.getSelectedItem();
         FormatterStrategy strategy = new ApalikeFormatter();
         String text = strategy.format(database);
-        outputArea.setText(text);
+        outputArea.setText(String.format("<html><body>%s</body></html>", text));
     }
 
     public static void main(String[] args) {
