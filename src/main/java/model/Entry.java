@@ -39,6 +39,10 @@ public class Entry {
         return this.get(BibTeXEntry.KEY_JOURNAL);
     }
 
+    public String getMonth() {
+        return this.get(BibTeXEntry.KEY_MONTH);
+    }
+
     private String get(Key key) {
         Value value = this.entry.getField(key);
         return value != null ? value.toUserString() : "";

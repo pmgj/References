@@ -19,13 +19,14 @@ import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXParser;
 import org.jbibtex.ParseException;
 
-import model.ApalikeFormatter;
-import model.FormatterStrategy;
+import model.styles.ApalikeFormatter;
+import model.styles.FormatterStrategy;
+import model.styles.IEEETransactionsFormatter;
 
 public class BibTeXApp {
     private JFrame frame;
     private JTextPane outputArea;
-    private JComboBox<String> styleSelector;
+    private JComboBox<FormatterStrategy> styleSelector;
     // private FormatterStrategy formatterStrategy;
     private BibTeXDatabase database;
 
@@ -37,7 +38,7 @@ public class BibTeXApp {
         outputArea = new JTextPane();
         outputArea.setContentType("text/html");
         outputArea.setEditable(false); // Evita edição manual
-        styleSelector = new JComboBox<>(new String[] { "Apalike", "Ieeetr" });
+        styleSelector = new JComboBox<>(new FormatterStrategy[] { new ApalikeFormatter(), new IEEETransactionsFormatter() });
         JButton loadButton = new JButton("Carregar Arquivo");
 
         // Listener para carregar arquivo
@@ -87,9 +88,8 @@ public class BibTeXApp {
             return;
         }
         outputArea.setText(""); // Limpa a área de exibição
-        // String selectedStyle = (String) styleSelector.getSelectedItem();
-        FormatterStrategy strategy = new ApalikeFormatter();
-        String text = strategy.format(database);
+        FormatterStrategy selectedStyle = (FormatterStrategy) styleSelector.getSelectedItem();
+        String text = selectedStyle.format(database);
         outputArea.setText(String.format("<html><body>%s</body></html>", text));
     }
 
