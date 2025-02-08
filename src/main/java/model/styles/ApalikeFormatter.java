@@ -28,4 +28,9 @@ public class ApalikeFormatter extends FormatterStrategy {
                 entry.getJournal(), volume);
         return temp;
     }
+
+    @Override
+    public String toString() {
+        return "apalike";
+    }
 }

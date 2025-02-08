@@ -29,4 +29,9 @@ public class IEEETransactionsFormatter extends FormatterStrategy {
                 entry.getJournal(), volume, pages, date);
         return temp;
     }
+
+    @Override
+    public String toString() {
+        return "ieeetr";
+    }
 }
