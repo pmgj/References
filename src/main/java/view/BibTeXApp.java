@@ -27,7 +27,6 @@ public class BibTeXApp {
     private JFrame frame;
     private JTextPane outputArea;
     private JComboBox<FormatterStrategy> styleSelector;
-    // private FormatterStrategy formatterStrategy;
     private BibTeXDatabase database;
 
     public BibTeXApp() {
@@ -45,13 +44,7 @@ public class BibTeXApp {
         loadButton.addActionListener(e -> loadFile());
 
         // Listener para mudança de estilo
-        styleSelector.addActionListener(e -> {
-            // String selectedStyle = (String) styleSelector.getSelectedItem();
-            // formatterStrategy = selectedStyle.equals("Apalike")
-            // ? new ApalikeFormatter()
-            // : new IeeetrFormatter();
-            refreshDisplay(); // Atualiza a exibição ao mudar o estilo
-        });
+        styleSelector.addActionListener(e -> refreshDisplay());
 
         JPanel topPanel = new JPanel();
         topPanel.add(new JLabel("Estilo:"));
@@ -61,8 +54,6 @@ public class BibTeXApp {
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(new JScrollPane(outputArea), BorderLayout.CENTER);
         frame.setVisible(true);
-
-        // formatterStrategy = new ApalikeFormatter(); // Estilo padrão inicial
     }
 
     private void loadFile() {

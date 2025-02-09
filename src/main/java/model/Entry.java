@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jbibtex.BibTeXEntry;
 import org.jbibtex.Key;
 import org.jbibtex.Value;
@@ -46,5 +49,19 @@ public class Entry {
     private String get(Key key) {
         Value value = this.entry.getField(key);
         return value != null ? value.toUserString() : "";
+    }
+
+    public static List<Author> processAuthors(String authors) {
+        List<Author> temp = new ArrayList<>();
+        String[] names = authors.split("and");
+        for (var element : names) {
+            var name = element.trim();
+            var parts = name.split(",");
+            if (parts.length > 1) {
+                var obj = new Author(parts[1].trim(), parts[0].trim());
+                temp.add(obj);
+            }
+        }
+        return temp;
     }
 }

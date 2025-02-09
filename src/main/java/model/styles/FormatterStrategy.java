@@ -1,13 +1,9 @@
 package model.styles;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
 import org.jbibtex.Key;
 
-import model.Author;
 import model.Entry;
 
 public abstract class FormatterStrategy {
@@ -20,19 +16,5 @@ public abstract class FormatterStrategy {
             formatted.append(String.format("<p>%s</p>", this.format(new Entry(entry))));
         }
         return formatted.toString();
-    }
-
-    protected List<Author> processAuthors(String authors) {
-        List<Author> temp = new ArrayList<>();
-        String[] names = authors.split("and");
-        for (var element : names) {
-            var name = element.trim();
-            var parts = name.split(",");
-            if (parts.length > 1) {
-                var obj = new Author(parts[1].trim(), parts[0].trim());
-                temp.add(obj);
-            }
-        }
-        return temp;
     }
 }

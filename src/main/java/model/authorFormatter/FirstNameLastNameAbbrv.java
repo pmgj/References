@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.Author;
 
-public class FirstNameLastNameAbbrv extends AuthorFormatter {
+public class FirstNameLastNameAbbrv implements AuthorFormatter {
     public String format(List<Author> listOfAuthors) {
         var ret = "";
         for (var author : listOfAuthors) {
