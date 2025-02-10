@@ -7,6 +7,6 @@ public class NumberFormatter implements CitationFormatter {
 
     @Override
     public String format(Entry entry) {
-        return String.format("[%d]", index++);
+        return String.format("%d", index++);
     }
 }

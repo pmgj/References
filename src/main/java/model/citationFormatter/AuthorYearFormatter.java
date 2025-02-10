@@ -18,6 +18,6 @@ public class AuthorYearFormatter implements CitationFormatter {
         } else {
             citation =  String.format("%s et al., %s", listOfAuthors.get(0).lastName(), entry.getYear());
         }
-        return String.format("[%s]", citation);
+        return String.format("%s", citation);
     }
 }

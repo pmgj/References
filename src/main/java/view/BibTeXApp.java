@@ -40,10 +40,7 @@ public class BibTeXApp {
         styleSelector = new JComboBox<>(new FormatterStrategy[] { new ApalikeFormatter(), new IEEETransactionsFormatter() });
         var loadButton = new JButton("Carregar Arquivo");
 
-        // Listener para carregar arquivo
         loadButton.addActionListener(e -> loadFile());
-
-        // Listener para mudança de estilo
         styleSelector.addActionListener(e -> refreshDisplay());
 
         var topPanel = new JPanel();
@@ -66,7 +63,7 @@ public class BibTeXApp {
                 Reader reader = new FileReader(filePath);
                 var bibtexParser = new BibTeXParser();
                 this.database = bibtexParser.parse(reader);
-                this.refreshDisplay(); // Atualiza a exibição
+                this.refreshDisplay();
             } catch (IOException | ParseException e) {
                 JOptionPane.showMessageDialog(frame, "Erro ao ler o arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -80,7 +77,7 @@ public class BibTeXApp {
         }
         outputArea.setText(""); // Limpa a área de exibição
         var selectedStyle = (FormatterStrategy) styleSelector.getSelectedItem();
-        var text = selectedStyle.format(database);
+        var text = selectedStyle.format(this.database);
         outputArea.setText(String.format("<html><body>%s</body></html>", text));
     }
 

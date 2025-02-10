@@ -20,7 +20,7 @@ public abstract class FormatterStrategy {
             var entry = new Entry(bEntry);
             var listOfAuthors = Entry.processAuthors(entry.getAuthor());
             var authors = authorFormatter.format(listOfAuthors);
-            formatted.append(String.format("<p>%s %s%s</p>", citationFormatter.format(entry),
+            formatted.append(String.format("<p>[%s] %s%s</p>", citationFormatter.format(entry),
                     authors, this.format(new Entry(bEntry))));
         }
         return formatted.toString();
