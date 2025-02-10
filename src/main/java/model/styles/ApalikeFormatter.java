@@ -20,7 +20,7 @@ public class ApalikeFormatter extends FormatterStrategy {
         var number = numberValue.isEmpty() ? "" : "(" + numberValue + ")";
         var pages = pagesValue.isEmpty() ? "" : ":" + pagesValue;
         var volume = volumeValue.isEmpty() ? "" : ", " + volumeValue + number + pages;
-        var temp = String.format("(%s). %s. <i>%s</i>%s", entry.getYear(),
+        var temp = String.format(" (%s). %s. <i>%s</i>%s", entry.getYear(),
                 entry.getTitle().replace("{", "").replace("}", ""),
                 entry.getJournal(), volume);
         return temp;

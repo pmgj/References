@@ -38,7 +38,7 @@ public class BibTeXApp {
         outputArea.setContentType("text/html");
         outputArea.setEditable(false); // Evita edição manual
         styleSelector = new JComboBox<>(new FormatterStrategy[] { new ApalikeFormatter(), new IEEETransactionsFormatter() });
-        JButton loadButton = new JButton("Carregar Arquivo");
+        var loadButton = new JButton("Carregar Arquivo");
 
         // Listener para carregar arquivo
         loadButton.addActionListener(e -> loadFile());
@@ -46,7 +46,7 @@ public class BibTeXApp {
         // Listener para mudança de estilo
         styleSelector.addActionListener(e -> refreshDisplay());
 
-        JPanel topPanel = new JPanel();
+        var topPanel = new JPanel();
         topPanel.add(new JLabel("Estilo:"));
         topPanel.add(styleSelector);
         topPanel.add(loadButton);
@@ -57,14 +57,14 @@ public class BibTeXApp {
     }
 
     private void loadFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(frame);
+        var fileChooser = new JFileChooser();
+        var result = fileChooser.showOpenDialog(frame);
 
         if (result == JFileChooser.APPROVE_OPTION) {
-            String filePath = fileChooser.getSelectedFile().getPath();
+            var filePath = fileChooser.getSelectedFile().getPath();
             try {
                 Reader reader = new FileReader(filePath);
-                BibTeXParser bibtexParser = new BibTeXParser();
+                var bibtexParser = new BibTeXParser();
                 this.database = bibtexParser.parse(reader);
                 this.refreshDisplay(); // Atualiza a exibição
             } catch (IOException | ParseException e) {
@@ -79,8 +79,8 @@ public class BibTeXApp {
             return;
         }
         outputArea.setText(""); // Limpa a área de exibição
-        FormatterStrategy selectedStyle = (FormatterStrategy) styleSelector.getSelectedItem();
-        String text = selectedStyle.format(database);
+        var selectedStyle = (FormatterStrategy) styleSelector.getSelectedItem();
+        var text = selectedStyle.format(database);
         outputArea.setText(String.format("<html><body>%s</body></html>", text));
     }
 
