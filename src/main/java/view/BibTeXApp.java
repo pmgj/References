@@ -36,8 +36,9 @@ public class BibTeXApp {
 
         outputArea = new JTextPane();
         outputArea.setContentType("text/html");
-        outputArea.setEditable(false); // Evita edição manual
-        styleSelector = new JComboBox<>(new FormatterStrategy[] { new ApalikeFormatter(), new IEEETransactionsFormatter() });
+        outputArea.setEditable(false);
+        styleSelector = new JComboBox<>(
+                new FormatterStrategy[] { new ApalikeFormatter(), new IEEETransactionsFormatter() });
         var loadButton = new JButton("Carregar Arquivo");
 
         loadButton.addActionListener(e -> loadFile());
