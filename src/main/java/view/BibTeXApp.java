@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,6 +30,9 @@ public class BibTeXApp {
     private JTextPane outputArea;
     private JComboBox<FormatterStrategy> styleSelector;
     private BibTeXDatabase database;
+    private Map<String, String> cache;
+    private final FormatterStrategy[] STYLES = new FormatterStrategy[] { new ApalikeFormatter(),
+            new IEEETransactionsFormatter() };
 
     public BibTeXApp() {
         frame = new JFrame("BibTeX Formatter");
@@ -37,10 +42,10 @@ public class BibTeXApp {
         outputArea = new JTextPane();
         outputArea.setContentType("text/html");
         outputArea.setEditable(false);
-        styleSelector = new JComboBox<>(
-                new FormatterStrategy[] { new ApalikeFormatter(), new IEEETransactionsFormatter() });
+        styleSelector = new JComboBox<>(STYLES);
         var loadButton = new JButton("Carregar Arquivo");
 
+        cache = new HashMap<>();
         loadButton.addActionListener(e -> loadFile());
         styleSelector.addActionListener(e -> refreshDisplay());
 
@@ -64,10 +69,19 @@ public class BibTeXApp {
                 Reader reader = new FileReader(filePath);
                 var bibtexParser = new BibTeXParser();
                 this.database = bibtexParser.parse(reader);
+                this.generateFormattedReferences();
                 this.refreshDisplay();
             } catch (IOException | ParseException e) {
                 JOptionPane.showMessageDialog(frame, "Erro ao ler o arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    private void generateFormattedReferences() {
+        cache.clear();
+        for (var style : STYLES) {
+            var reference = style.format(this.database);
+            cache.put(style.toString(), reference);
         }
     }
 
@@ -78,7 +92,9 @@ public class BibTeXApp {
         }
         outputArea.setText(""); // Limpa a área de exibição
         var selectedStyle = (FormatterStrategy) styleSelector.getSelectedItem();
-        var text = selectedStyle.format(this.database);
+        var text = cache.get(selectedStyle.toString());
+
+        // var text = selectedStyle.format(this.database);
         outputArea.setText(String.format("<html><body>%s</body></html>", text));
     }
 
