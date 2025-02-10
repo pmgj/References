@@ -1,5 +1,8 @@
 package model.styles;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.Key;
 
@@ -11,7 +14,9 @@ public abstract class FormatterStrategy {
     protected AuthorFormatter authorFormatter;
     protected CitationFormatter citationFormatter;
 
-    protected abstract String format(Entry reference);
+    protected abstract String article(Entry reference);
+
+    protected abstract String inproceedings(Entry reference);
 
     public String format(BibTeXDatabase database) {
         var formatted = new StringBuilder();
@@ -20,8 +25,15 @@ public abstract class FormatterStrategy {
             var entry = new Entry(bEntry);
             var listOfAuthors = Entry.processAuthors(entry.getAuthor());
             var authors = authorFormatter.format(listOfAuthors);
+            String reference = "";
+            try {
+                Method method = FormatterStrategy.class.getDeclaredMethod(bEntry.getType().toString(), Entry.class);
+                reference = (String) method.invoke(this, new Entry(bEntry));
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+                System.out.println(ex.getMessage());
+            }
             formatted.append(String.format("<p>[%s] %s%s</p>", citationFormatter.format(entry),
-                    authors, this.format(new Entry(bEntry))));
+                    authors, reference));
         }
         return formatted.toString();
     }

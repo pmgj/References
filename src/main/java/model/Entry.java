@@ -14,6 +14,22 @@ public class Entry {
         this.entry = entry;
     }
 
+    public String getAddress() {
+        return this.get(BibTeXEntry.KEY_ADDRESS);
+    }
+
+    public String getPublisher() {
+        return this.get(BibTeXEntry.KEY_PUBLISHER);
+    }
+
+    public String getOrganization() {
+        return this.get(BibTeXEntry.KEY_ORGANIZATION);
+    }
+
+    public String getBooktitle() {
+        return this.get(BibTeXEntry.KEY_BOOKTITLE);
+    }
+
     public String getTitle() {
         return this.get(BibTeXEntry.KEY_TITLE);
     }
@@ -44,6 +60,14 @@ public class Entry {
 
     public String getMonth() {
         return this.get(BibTeXEntry.KEY_MONTH);
+    }
+
+    public String getEditor() {
+        return this.get(BibTeXEntry.KEY_EDITOR);
+    }
+
+    public String getSeries() {
+        return this.get(BibTeXEntry.KEY_SERIES);
     }
 
     private String get(Key key) {

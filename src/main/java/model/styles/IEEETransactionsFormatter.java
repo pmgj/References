@@ -8,11 +8,11 @@ public class IEEETransactionsFormatter extends FormatterStrategy {
 
     public IEEETransactionsFormatter() {
         this.authorFormatter = new FirstNameLastNameAbbrv();
-        this.citationFormatter = new NumberFormatter();    
+        this.citationFormatter = new NumberFormatter();
     }
 
     @Override
-    protected String format(Entry entry) {
+    protected String article(Entry entry) {
         var volumeValue = entry.getVolume();
         var pagesValue = entry.getPages();
         var monthValue = entry.getMonth();
@@ -24,6 +24,30 @@ public class IEEETransactionsFormatter extends FormatterStrategy {
         var temp = String.format(", &ldquo;%s,&rdquo; <em>%s</em>%s%s%s",
                 entry.getTitle().replace("{", "").replace("}", ""),
                 entry.getJournal(), volume, pages, date);
+        return temp;
+    }
+
+    @Override
+    protected String inproceedings(Entry entry) {
+        var seriesValue = entry.getSeries();
+        var volumeValue = entry.getVolume();
+        var addressValue = entry.getAddress();
+        var organizationValue = entry.getOrganization();
+        var pagesValue = entry.getPages();
+        var monthValue = entry.getMonth();
+        var yearValue = entry.getYear();
+        var publisherValue = entry.getPublisher();
+
+        var series = seriesValue.isEmpty() ? "" : " of <em>" + seriesValue + "</em>";
+        var volume = volumeValue.isEmpty() ? "" : ", vol. " + volumeValue + series;
+        var address = addressValue.isEmpty() ? "" : ", (" + addressValue + ")";
+        var organization = organizationValue.isEmpty() ? "" : ", " + organizationValue;
+        var date = monthValue.isEmpty() ? ", " + yearValue : ", " + monthValue + " " + yearValue;
+        var publisher = publisherValue.isEmpty() ? "" : ", " + publisherValue;
+        var temp = String.format(", &ldquo;%s,&rdquo; in <em>%s</em>%s%s, p. %s%s%s%s",
+                entry.getTitle().replace("{", "").replace("}", ""),
+                entry.getBooktitle().replace("{", "").replace("}", ""),
+                volume, address, pagesValue, organization, publisher, date);
         return temp;
     }
 
