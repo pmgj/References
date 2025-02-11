@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>BatalhaNaval</artifactId>
+    <artifactId>References</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>BatalhaNaval</name>
+    <name>References</name>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -39,7 +39,7 @@
     </dependencies>
 
     <build>
-        <finalName>Battleship</finalName>
+        <finalName>References</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
