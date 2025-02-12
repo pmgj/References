@@ -25,8 +25,7 @@ import model.styles.ApalikeFormatter;
 import model.styles.FormatterStrategy;
 import model.styles.IEEETransactionsFormatter;
 
-public class BibTeXApp {
-    private JFrame frame;
+public class BibTeXAppSwing {
     private JTextPane outputArea;
     private JComboBox<FormatterStrategy> styleSelector;
     private BibTeXDatabase database;
@@ -34,8 +33,8 @@ public class BibTeXApp {
     private final FormatterStrategy[] STYLES = new FormatterStrategy[] { new ApalikeFormatter(),
             new IEEETransactionsFormatter() };
 
-    public BibTeXApp() {
-        frame = new JFrame("BibTeX Formatter");
+    public BibTeXAppSwing() {
+        JFrame frame = new JFrame("BibTeX Formatter");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
 
@@ -46,7 +45,7 @@ public class BibTeXApp {
         var loadButton = new JButton("Carregar Arquivo");
 
         cache = new HashMap<>();
-        loadButton.addActionListener(e -> loadFile());
+        loadButton.addActionListener(e -> loadFile(frame));
         styleSelector.addActionListener(e -> refreshDisplay());
 
         var topPanel = new JPanel();
@@ -59,7 +58,7 @@ public class BibTeXApp {
         frame.setVisible(true);
     }
 
-    private void loadFile() {
+    private void loadFile(JFrame frame) {
         var fileChooser = new JFileChooser();
         var result = fileChooser.showOpenDialog(frame);
 
@@ -93,12 +92,10 @@ public class BibTeXApp {
         outputArea.setText(""); // Limpa a área de exibição
         var selectedStyle = (FormatterStrategy) styleSelector.getSelectedItem();
         var text = cache.get(selectedStyle.toString());
-
-        // var text = selectedStyle.format(this.database);
         outputArea.setText(String.format("<html><body>%s</body></html>", text));
     }
 
     public static void main(String[] args) {
-        new BibTeXApp();
+        new BibTeXAppSwing();
     }
 }
