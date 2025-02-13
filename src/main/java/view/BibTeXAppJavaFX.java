@@ -18,9 +18,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.styles.ApalikeFormatter;
@@ -29,7 +30,7 @@ import model.styles.IEEETransactionsFormatter;
 
 public class BibTeXAppJavaFX extends Application {
     private ComboBox<FormatterStrategy> styleSelector;
-    private TextArea outputArea;
+    private WebEngine outputArea;
     private BibTeXDatabase database;
     private Map<String, String> cache;
     private final FormatterStrategy[] STYLES = new FormatterStrategy[] { new ApalikeFormatter(),
@@ -45,24 +46,22 @@ public class BibTeXAppJavaFX extends Application {
 
         HBox root = new HBox(10);
         root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-padding: 10;");
 
         Label label = new Label("Estilo:");
 
         styleSelector = new ComboBox<>();
         styleSelector.getItems().addAll(STYLES);
         styleSelector.setValue(STYLES[0]);
-        // styleSelector.setPromptText("Selecionar Estilo");
 
         Button loadButton = new Button("Carregar Arquivo");
 
         VBox v = new VBox(10);
         root.getChildren().addAll(label, styleSelector, loadButton);
 
-        outputArea = new TextArea();
-        outputArea.setEditable(false);
+        WebView view = new WebView();
+        outputArea = view.getEngine();
 
-        v.getChildren().addAll(root, outputArea);
+        v.getChildren().addAll(root, view);
 
         cache = new HashMap<>();
         loadButton.setOnAction(event -> loadFile(primaryStage));
@@ -98,12 +97,12 @@ public class BibTeXAppJavaFX extends Application {
 
     private void refreshDisplay() {
         if (this.database == null) {
-            outputArea.setText("Nenhuma referência carregada.");
+            outputArea.loadContent("Nenhuma referência carregada.");
             return;
         }
-        outputArea.setText(""); // Limpa a área de exibição
+        outputArea.loadContent("");
         var selectedStyle = styleSelector.getValue();
         var text = cache.get(selectedStyle.toString());
-        outputArea.setText(String.format("<html><body>%s</body></html>", text));
+        outputArea.loadContent(String.format("<html><body>%s</body></html>", text));
     }
 }
