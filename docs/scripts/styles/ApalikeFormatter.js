@@ -1,29 +1,13 @@
-import Formatter from "./Formatter.js";
+import LastNameFirstNameAbbrv from "../authorFormatter/LastNameFirstNameAbbrv.js";
+import AuthorYearFormatter from "../citationFormatter/AuthorYearFormatter.js";
+import FormatterStrategy from "./FormatterStrategy.js";
 
-export default class APA extends Formatter {
+export default class APA extends FormatterStrategy {
     static name = "apalike";
-    constructor(bibliography) {
-        super(bibliography);
-    }
-    printAuthors(authors) {
-        let ret = "";
-        for (const author of authors) {
-            ret += `${author.lastName}, ${author.firstName[0]}., `;
-        }
-        return ret.substring(0, ret.length - 2);
-    }
-    citep(id) {
-        let obj = this.getItem(id);
-        let ret = "[";
-        if (obj.authors.length === 1) {
-            ret += `${obj.authors[0].lastName}, ${obj.year}`;
-        } else if (obj.authors.length === 2) {
-            ret += `${obj.authors[0].lastName} and ${obj.authors[1].lastName}, ${obj.year}`;
-        } else {
-            ret += `${obj.authors[0].lastName} et al., ${obj.year}`;
-        }
-        ret += "]";
-        return ret;
+    constructor() {
+        super();
+        this.authorFormatter = new LastNameFirstNameAbbrv();
+        this.citationFormatter = new AuthorYearFormatter();
     }
     article(id) {
         let obj = this.getItem(id);

@@ -1,19 +1,12 @@
-import Formatter from "./Formatter.js";
+import FormatterStrategy from "./FormatterStrategy.js";
+import FirstNameLastNameAbbrv from "../authorFormatter/FirstNameLastNameAbbrv.js";
+import NumberFormatter from "../citationFormatter/NumberFormatter.js";
 
-export default class IEEE extends Formatter {
+export default class IEEE extends FormatterStrategy {
     static name = "ieeetr";
-    constructor(bibliography) {
-        super(bibliography);
-    }
-    printAuthors(authors) {
-        let ret = "";
-        for (const author of authors) {
-            ret += `${author.firstName[0]}. ${author.lastName}, `;
-        }
-        return ret.substring(0, ret.length - 2);
-    }
-    citep(id) {
-        return `[${this.bibliography.findIndex(item => item.id === id) + 1}]`;
+    constructor() {
+        this.authorFormatter = new FirstNameLastNameAbbrv();
+        this.citationFormatter = new NumberFormatter();
     }
     article(id) {
         let obj = this.getItem(id);

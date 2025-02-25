@@ -1,5 +1,5 @@
-import APA from "./apalike.js";
-import IEEE from "./ieeetr.js";
+import APA from "./styles/ApalikeFormatter.js";
+import IEEE from "./styles/IEEETransactionsFormatter.js";
 
 class GUI {
     styles = [APA, IEEE];
