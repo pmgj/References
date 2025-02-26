@@ -11,21 +11,15 @@ class GUI {
         let textarea = document.querySelector("textarea");
         this.outputArea.innerHTML = "";
         this.database = BibtexParser.parseToJSON(textarea.value);
-        let index = parseInt(this.select.value);
-        let style = new this.STYLES[index](this.database);
+        console.log(this.database);
         this.generateFormattedReferences();
         this.refreshDisplay();
-        for (const element of this.database) {
-            let li = document.createElement("li");
-            ul.appendChild(li);
-            li.innerHTML = style[element.type](element.id);
-        }
     }
     generateFormattedReferences() {
         this.cache.clear();
         for (let style of this.STYLES) {
-            let reference = style.format(this.database);
-            this.cache.put(style.toString(), reference);
+            let reference = (new style).format(this.database);
+            this.cache.set(style.name, reference);
         }
     }
     refreshDisplay() {
@@ -36,8 +30,8 @@ class GUI {
         this.outputArea.textContent = "";
         let index = parseInt(this.select.value);
         let selectedStyle = new this.STYLES[index](this.database);
-        let text = cache.get(selectedStyle.toString());
-        outputArea.setText(`${text}`);
+        let text = this.cache.get(selectedStyle.name);
+        this.outputArea.innerHTML = `${text}`;
     }
     populateStyles() {
         for (let i = 0; i < this.STYLES.length; i++) {

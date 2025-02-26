@@ -2,14 +2,14 @@ import Entry from "../Entry.js";
 
 export default class AuthorYearFormatter {
     format(entry) {
-        let listOfAuthors = Entry.processAuthors(entry.getAuthor());
+        let listOfAuthors = Entry.processAuthors(entry.author);
         let citation;
-        if (listOfAuthors.size() === 1) {
-            citation = `${listOfAuthors.get(0).lastName()}, ${entry.getYear()}`;
-        } else if (listOfAuthors.size() === 2) {
-            citation = `${listOfAuthors.get(0).lastName()} and ${listOfAuthors.get(1).lastName()}, ${entry.getYear()}`;
+        if (listOfAuthors.length === 1) {
+            citation = `${listOfAuthors[0].lastName()}, ${entry.year}`;
+        } else if (listOfAuthors.length === 2) {
+            citation = `${listOfAuthors[0].lastName()} and ${listOfAuthors[1].lastName()}, ${entry.year}`;
         } else {
-            citation = `${listOfAuthors.get(0).lastName()} et al., ${entry.getYear()}`;
+            citation = `${listOfAuthors[0].lastName()} et al., ${entry.year}`;
         }
         return `${citation}`;
     }

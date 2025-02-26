@@ -9,7 +9,7 @@ export default class Entry {
             var parts = name.split(",");
             if (parts.length > 1) {
                 var obj = new Author(parts[1].trim(), parts[0].trim());
-                temp.add(obj);
+                temp.push(obj);
             }
         }
         return temp;

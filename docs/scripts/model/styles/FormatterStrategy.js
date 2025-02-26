@@ -6,18 +6,16 @@ export default class FormatterStrategy {
     citationFormatter;
     format(database) {
         let formatted = "";
-        for (let key of database.getEntries().keySet()) {
-            let bEntry = database.getEntries().get(key);
-            let entry = new Entry(bEntry);
-            var listOfAuthors = Entry.processAuthors(entry.getAuthor());
-            var authors = authorFormatter.format(listOfAuthors);
+        for (let entry of database) {
+            var listOfAuthors = Entry.processAuthors(entry.author);
+            var authors = this.authorFormatter.format(listOfAuthors);
             let reference = "";
             try {
-                reference = this[bEntry.getType().toString()](new Entry(bEntry));
+                reference = this[entry.type](entry);
             } catch (ex) {
-                System.out.println(ex.getMessage());
+                console.log(ex.message);
             }
-            formatted += `<p>[${citationFormatter.format(entry)}] ${authors}${reference}</p>`;
+            formatted += `<p>[${this.citationFormatter.format(entry)}] ${authors}${reference}</p>`;
         }
         return formatted;
     }

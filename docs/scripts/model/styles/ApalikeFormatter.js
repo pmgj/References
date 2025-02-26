@@ -9,15 +9,13 @@ export default class APA extends FormatterStrategy {
         this.authorFormatter = new LastNameFirstNameAbbrv();
         this.citationFormatter = new AuthorYearFormatter();
     }
-    article(id) {
-        let obj = this.getItem(id);
+    article(obj) {
         let number = obj.number ? `(${obj.number})` : ``;
         let pages = obj.pages ? `:${obj.pages}` : ``;
         let volume = obj.volume ? `, ${obj.volume}${number}${pages}` : ``;
-        return `${this.citep(id)} ${this.printAuthors(obj.authors)} (${obj.year}). ${obj.title}. <em>${obj.journal}</em>${volume}.`;
+        return ` (${obj.year}). ${obj.title}. <em>${obj.journal}</em>${volume}.`;
     }
-    inproceedings(id) {
-        let obj = this.getItem(id);
+    inproceedings(obj) {
         let editor = obj.editor ? ` ${obj.editor}, editor,` : ``;
         let series = obj.series ? ` of ${obj.series}, ` : ``;
         let volume = obj.volume ? ` volume ${obj.volume}${series}` : ``;
@@ -26,6 +24,6 @@ export default class APA extends FormatterStrategy {
         let publisher = obj.publisher ? `${obj.publisher}` : ``;
         let organization = obj.organization ? `${obj.organization}` : ``;
         let orgpub = organization && publisher ? `${organization}, ${publisher}` : organization ? `${organization}` : publisher ? `${publisher}` : ``;
-        return `${this.citep(id)} ${this.printAuthors(obj.authors)} (${obj.year}). ${obj.title}. In${editor} <em>${obj.booktitle}</em>${volume}${pages}${address}. ${orgpub}.`;
+        return ` (${obj.year}). ${obj.title}. In${editor} <em>${obj.booktitle}</em>${volume}${pages}${address}. ${orgpub}.`;
     }
 }

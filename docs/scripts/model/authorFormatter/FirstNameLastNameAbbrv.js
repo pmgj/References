@@ -8,6 +8,6 @@ export default class FirstNameLastNameAbbrv {
             }
             ret += author.lastName() + ", ";
         }
-        return ret.substring(0, ret.length() - 2);
+        return ret.substring(0, ret.length - 2);
     }
 }
