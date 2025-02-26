@@ -1,7 +1,6 @@
 import Entry from "../Entry.js";
 
 export default class FormatterStrategy {
-    static name = "";
     authorFormatter;
     citationFormatter;
     format(database) {

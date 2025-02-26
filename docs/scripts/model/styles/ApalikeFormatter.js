@@ -3,7 +3,6 @@ import AuthorYearFormatter from "../citationFormatter/AuthorYearFormatter.js";
 import FormatterStrategy from "./FormatterStrategy.js";
 
 export default class APA extends FormatterStrategy {
-    static name = "apalike";
     constructor() {
         super();
         this.authorFormatter = new LastNameFirstNameAbbrv();
@@ -25,5 +24,8 @@ export default class APA extends FormatterStrategy {
         let organization = obj.organization ? `${obj.organization}` : ``;
         let orgpub = organization && publisher ? `${organization}, ${publisher}` : organization ? `${organization}` : publisher ? `${publisher}` : ``;
         return ` (${obj.year}). ${obj.title}. In${editor} <em>${obj.booktitle}</em>${volume}${pages}${address}. ${orgpub}.`;
+    }
+    toString() {
+        return "apalike";
     }
 }

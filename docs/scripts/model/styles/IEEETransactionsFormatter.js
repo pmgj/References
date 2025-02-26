@@ -3,7 +3,6 @@ import FirstNameLastNameAbbrv from "../authorFormatter/FirstNameLastNameAbbrv.js
 import NumberFormatter from "../citationFormatter/NumberFormatter.js";
 
 export default class IEEE extends FormatterStrategy {
-    static name = "ieeetr";
     constructor() {
         super();
         this.authorFormatter = new FirstNameLastNameAbbrv();
@@ -23,5 +22,8 @@ export default class IEEE extends FormatterStrategy {
         let date = obj.month ? `, ${obj.month} ${obj.year}` : `, ${obj.year}`;
         let publisher = obj.publisher ? `, ${obj.publisher}` : ``;
         return `, &ldquo;${obj.title},&rdquo; in <em>${obj.booktitle}</em>${volume}${address}, p. ${obj.pages}${organization}${publisher}${date}.`;
+    }
+    toString() {
+        return "ieeetr";
     }
 }
