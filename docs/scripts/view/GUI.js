@@ -3,16 +3,23 @@ import IEEE from "../model/styles/IEEETransactionsFormatter.js";
 
 class GUI {
     STYLES = [new APA(), new IEEE()];
-    select = document.querySelector("#style");
     database;
     cache = new Map();
+    select = document.querySelector("#style");
     outputArea = document.querySelector("output");
+    file = document.querySelector("input[type='file']");
     convert() {
-        let textarea = document.querySelector("textarea");
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.database = BibtexParser.parseToJSON(reader.result);
+            this.generateFormattedReferences();
+            this.refreshDisplay();
+        };
+        reader.onerror = () => {
+            showMessage("Error reading the file. Please try again.", "error");
+        };
+        reader.readAsText(this.file.files[0]);
         this.outputArea.innerHTML = "";
-        this.database = BibtexParser.parseToJSON(textarea.value);
-        this.generateFormattedReferences();
-        this.refreshDisplay();
     }
     generateFormattedReferences() {
         this.cache.clear();
@@ -23,7 +30,7 @@ class GUI {
     }
     refreshDisplay() {
         if (this.database == null) {
-            outputArea.innerHTML = "Nenhuma referência carregada.";
+            this.outputArea.innerHTML = "Nenhuma referência carregada.";
             return;
         }
         this.outputArea.textContent = "";
@@ -39,9 +46,8 @@ class GUI {
         }
     }
     registerEvents() {
-        let button = document.querySelector("input[type='button']");
-        button.onclick = this.convert.bind(this);
         this.select.onchange = this.refreshDisplay.bind(this);
+        this.file.onchange = this.convert.bind(this);
         this.populateStyles();
     };
 }
